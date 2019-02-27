@@ -1,0 +1,11 @@
+*** Settings ***
+Suite Setup
+Suite Teardown
+Test Setup        ${登录方式}
+Test Teardown
+Resource          公共变量.txt
+Resource          基础关键字.txt
+Library           Collections
+Library           Selenium2Library
+
+*** Test Cases ***
