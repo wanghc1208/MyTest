@@ -1,6 +1,0 @@
-*** Variables ***
-${xpath_刘化运_赣州一中教师}    /html/body/div[18]/a
-${xpath_赵芸_赣州一中学生}    /html/body/div[22]/a
-${user}           23767701129
-${pwd}            123456
-${登录方式}           账号密码登录
