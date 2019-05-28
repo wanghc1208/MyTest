@@ -1,0 +1,63 @@
+*** Settings ***
+Suite Setup
+Suite Teardown
+Test Setup        drmLogin
+Test Teardown     closebrower
+Resource          basicKeyword.tsv
+Resource          basicMethod.tsv
+Library           Collections
+Library           Selenium2Library
+
+*** Test Cases ***
+1036036_contentPay
+    sleep    3
+    hitElement    //div[@class="el-dropdown"]/span/i
+    hitElement    //*[@class="el-dropdown-menu el-popper"]/li[7]    #选择高中数学派发师
+    hitLink    //nav/a[1]    #选择内容派发（默认）
+    hitButton    //tbody/tr/td[5]/div[@class="cell"]/button[2]    #点击查看
+    hitElement    //span[@class="white"]    #关闭查看
+    sleep    2
+    ${examname}    getTextValue    //div[3]/table/tbody/tr/td[1]/div
+    Set Global Variable    ${examname}    ${examname}
+    sleep    2
+    hitButton    //div[3]/table/tbody/tr[td[div[text()="${examname}"]]]/td[5]/div/button[1]    #点击去派发
+
+1036049_PayOut
+    sleep    3
+    hitElement    //nav/a[2]    #点击我的派发记录
+    hitButton    //div[3]/table/tbody/tr[td[div[text()="${examname}"]]]/td[6]/div/button[1]    #点击继续派发
+    sleep    2
+    Execute JavaScript    window.location.reload()    #刷新当前页面
+    sleep    3
+    hitElement    //div[3]/div/div/div[1]/div/label[2]/span[1]/span
+    hitButton    //button[span[text()="派发内部老师"]]
+    sleep    2
+    Execute JavaScript    window.location.reload()    #刷新当前页面
+    sleep    3
+    hitElement    //div[3]/div/div/div[1]/div/label[3]/span[1]/span
+    hitButton    //button[span[text()="不派发"]]
+    sleep    2
+    hitButton    //button[span[text()="提交"]]
+
+1036053_PayOut_Records
+    sleep    3
+    hitElement    //nav/a[2]    #点击我的派发记录
+    hitElement    //*[@id="tab-dispatching"]    #查看编辑中列表
+    hitElement    //*[@id="tab-crop_rejected"]    #查看已打回切割
+    hitElement    //*[@id="tab-expend"]    #查看已提交
+    hitElement    //*[@id="pane-expend"]/ul/li[1]
+    hitElement    //*[@id="pane-expend"]/ul/li[2]
+    hitElement    //*[@id="pane-expend"]/ul/li[3]
+    hitElement    //*[@id="pane-expend"]/ul/li[4]
+    hitElement    //*[@id="pane-expend"]/ul/li[5]
+
+1036080_Job Account
+    hitLink    //nav/a[3]    #点击我的工作统计
+    sleep    2
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一周"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一个月"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    sleep    3

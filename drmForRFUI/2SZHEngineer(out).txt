@@ -1,0 +1,89 @@
+*** Settings ***
+Suite Setup
+Suite Teardown
+Test Setup        drmLogin
+Test Teardown     closebrower
+Resource          basicKeyword.tsv
+Resource          basicMethod.tsv
+Library           Collections
+Library           Selenium2Library
+
+*** Test Cases ***
+1032464_claim_digits(out)
+    sleep    3
+    hitElement    //div[@class="el-dropdown"]/span/i
+    hitElement    //*[@class="el-dropdown-menu el-popper"]/li[3]    #选择高中物理数字化工程师
+    hitLink    //nav/a[1]    #选择内容入口菜单（默认）
+    hitElement    //*[@id="tab-external"]    #点击外部平台
+    sleep    2
+    hitButton    //*[@id="pane-external"]/div/div[3]/table/tbody/tr[1]/td[5]/div/button
+
+1032465_edit_digits(out)
+    hitLink    //nav/a[2]    #点击我的录排记录
+    hitElement    //*[@id="tab-external"]    #点击外部平台
+    hitElement    //*[@id="tab-editing"]    #点击编辑中
+    hitButton    //button[span[text()="查看试题"]]    #点击查看试题
+    hitElement    //div/div[1]/div/div[2]/span[text()="关闭"]    #关闭试题查看
+    hitButton    //button[span[text()="继续数字化"]]    #点击继续数字化
+    hitElement    //span[text()="预览"]    #点击预览
+    sleep    3
+    hitElement    //div/div[1]/div/div[2]/span[text()="关闭"]    #关闭预览
+    hitElement    //div[2]/div[2]/div/div/input[@placeholder="请选择"]
+    hitElement    //div[1]/ul/li[span[text()="解答题"]]    #设置题型为简答题
+    hitButton    //button[span[text()='暂存']]    #点击暂存
+
+1034400_commit_digits(out)
+    hitLink    //nav/a[2]    #点击我的答题记录
+    hitElement    //*[@id="tab-external"]    #点击外部平台
+    hitElement    //*[@id="tab-editing"]    #点击编辑中
+    hitButton    //button[span[text()="继续数字化"]]    #点击继续数字化
+    sleep    2
+    ${type}    getTextValue    //*[@id="pane-edit"]/div[1]
+    hitElement    //div[div[@class="kb_editor-watch-placeholder"]]
+    sleep    5
+    Select Frame    xpath=//*[contains(@src, 'http://www.w3.org/1999/xhtml' )]
+    sleep    3
+    execute javascript    $('body > p').text('题干test')
+    unSelect Frame
+    sleep    3
+    hitElement    //div[@class="kb_editques-stem"]/div/div[3]/button[1]    #点击保存
+    hitButton    //div/div[2]/button[span[text()="提交"]]
+
+1034417_Edit again_commit_digits(out)
+    hitLink    //nav/a[2]    #点击我的答题记录
+    hitElement    //*[@id="tab-external"]    #点击外部平台
+    hitElement    //*[@id="tab-edited"]    #点击待审核
+    hitElement    //div[1]/div/div/div/div[3]/div[2]/button[span[text()="查看试题"]]    #查看试题
+    hitElement    //div/div[1]/div/div[2]/span[text()="关闭"]    #关闭试题查看
+    hitButton    //button[span[text()="重新编辑"]]    #点击重新编辑
+    sleep    2
+    hitButton    //div[@class="el-row"]/div[2]/button[3]    #点击提交
+
+1032466_list_digits(out)
+    hitLink    //nav/a[2]    #点击我的答题记录
+    hitElement    //*[@id="tab-external"]    #点击外部平台
+    hitElement    //*[@id="tab-editing"]    #点击编辑中
+    hitElement    //*[@id="tab-edited"]    #点击待审核
+    hitElement    //*[@id="tab-reviewing"]    #点击审核中
+    hitElement    //*[@id="tab-rejected"]    #点击未通过
+    hitElement    //*[@id="tab-accepted"]    #点击已通过
+
+1032467_Job Account
+    hitLink    //nav/a[3]    #点击我的工作统计
+    hitElement    //*[@id="tab-out"]
+    sleep    2
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一周"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一个月"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    sleep    3
+    hitElement    //*[@id="tab-in"]
+    sleep    2
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一周"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一个月"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
