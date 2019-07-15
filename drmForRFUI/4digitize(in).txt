@@ -1,0 +1,88 @@
+*** Settings ***
+Suite Setup
+Suite Teardown
+Test Setup
+Test Teardown
+Resource          basicKeyword.tsv
+Resource          basicMethod.tsv
+Library           Collections
+Library           IYXUITest
+
+*** Test Cases ***
+1032468_claim_digits(in)
+    log    待数字化列表
+    Comment    Set Global Variable    ${examname}    autoTest0704_3
+    jsContain    p    高中-数学-数字工程师
+    hitLink    //nav/a[1]    #选择内容入口菜单（默认）
+    hitElement    //*[@id="tab-internal"]    #点击内部平台
+    hitButton    //*[@id="pane-internal"]/div/div[3]/table/tbody/tr[td[div[text()="${examname}"]]]/td[5]/div/button    #点击认领
+    jsContain    button    去完成
+    Wait Try Click    //div[@class="el-message-box__btns"]/button[2]    #点击去完成
+    Wait Try Click    //a[@class="back-to-prev"]    #返回上一页
+
+1032469_editsave_digits(in)
+    log    数字化编辑保存
+    Wait Try Click    //a[@class="back-to-prev"]
+    hitLink    //nav/a[2]    #点击我的录排记录
+    hitElement    //*[@id="tab-internal"]    #点击内部平台
+    sleep    2
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-editing"]    #点击编辑中
+    Comment    hitButton    //button[span[text()="查看试题"]]    #点击查看试题
+    sleep    2
+    Execute JavaScript    $("button:contains('查看试题')").eq(1).click()
+    hitElement    //div/div[1]/div/div[2]/span[text()="关闭"]    #关闭试题查看
+
+1032469_commit_digits(in)
+    log    数字化提交
+    Comment    hitButton    //div[div[div[span[text()="${examname}"]]]]/div[3]/div[2]/button[2]    #点击继续数字化
+    sleep    2
+    Execute JavaScript    $("button:contains('继续数字化')").eq(1).click()
+    hitElement    //span[text()="预览"]    #点击预览
+    sleep    3
+    hitElement    //div/div[1]/div/div[2]/span[text()="关闭"]    #关闭预览
+    hitButton    //button[span[text()='暂存']]    #点击暂存
+    hitButton    //div/div[2]/button[span[text()="提交"]]    #点击提交
+    jsContain    button    回首页
+    Wait Try Click    //button[span[text()="回首页"]]    #回首页
+
+1036092_edit_Dcheck_digits(in)
+    log    数字化待审核列表查看
+    sleep    2
+    hitLink    //nav/a[2]    #点击我的答题记录
+    hitElement    //*[@id="tab-internal"]    #点击内部平台
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-edited"]    #点击待审核
+    sleep    2
+    Execute JavaScript    $("#pane-edited > div > div > div > div > div.card-footer > div.footer-btn > button:nth-child(2)").click()
+    Comment    hitElement    //div[1]/div/div/div/div[3]/div[2]/button[span[text()="查看试题"]]    #查看试题
+    hitElement    //div/div[1]/div/div[2]/span[text()="关闭"]    #关闭试题查看
+
+1036092_edit_commit2_digits(in)
+    log    待审核列表重新编辑提交
+    hitButton    //button[span[text()="重新编辑"]]    #点击重新编辑
+    hitButton    //div[@class="el-button-group"]/button[2]    #点击文本模式
+    hitButton    //div[@class="el-button-group"]/button[1]    #切换回结构化模式
+    hitButton    //*[@id="pane-edit"]/div[1]/div[1]/button    #点击重置按钮
+    hitButton    //div[@class="el-row"]/div[2]/button[3]    #点击提交
+    jsContain    button    回首页
+    Wait Try Click    //button[span[text()="回首页"]]    #回首页
+
+1032470_record_list_digits(in)
+    log    数字化内部平台录排记录
+    hitLink    //nav/a[2]    #点击我的答题记录
+    hitElement    //*[@id="tab-internal"]    #点击内部平台
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-editing"]    #点击编辑中
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-edited"]    #点击待审核
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-reviewing"]    #点击审核中
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-rejected"]    #点击未通过
+    hitElement    //div[@id="pane-internal"]/div/div/div/div/div/div/div[@id="tab-accepted"]    #点击已通过
+
+1032467_Job Account(in)
+    log    数字化内部平台工作量统计
+    hitLink    //nav/a[3]    #点击我的工作统计
+    hitElement    //*[@id="tab-in"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一周"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一个月"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]

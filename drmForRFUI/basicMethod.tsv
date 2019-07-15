@@ -1,5 +1,5 @@
 *Settings*							
-Library	Selenium2Library						
+Library	IYXUITest						
 							
 *Keywords*							
 textAssert	[Arguments]	${xpath}	${textValue}				
@@ -8,17 +8,17 @@ textAssert	[Arguments]	${xpath}	${textValue}
 	Should Be Equal	${value}	${textValue}				
 							
 hitElement	[Arguments]	${xpath}					
-	sleep	3					
+	sleep	2					
 	Wait Until Element Is Enabled	xpath=${xpath}	timeout=10				
 	Click Element	xpath=${xpath}					
 							
 hitButton	[Arguments]	${xpath}					
-	sleep	3					
+	sleep	2					
 	Wait Until Element Is Enabled	xpath=${xpath}	timeout=10				
 	Click Button	xpath=${xpath}					
 							
 hitLink	[Arguments]	${xpath}					
-	sleep	3					
+	sleep	2					
 	Wait Until Element Is Enabled	xpath=${xpath}	timeout=10				
 	Click Link	xpath=${xpath}					
 							
@@ -33,3 +33,7 @@ getTextValue	[Arguments]	${xpath}
 	Wait Until Element Is Enabled	xpath=${xpath}	timeout=10				
 	${value}	Get Text	xpath=${xpath}				
 	[Return]	${value}					
+							
+jsContain	[Arguments]	${key}	${value}				
+	sleep	3					
+	Execute Javascript	"$(""${key}:contains('${value}')"").eq(0).click()"					

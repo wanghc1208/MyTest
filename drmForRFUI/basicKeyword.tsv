@@ -1,12 +1,12 @@
 *Settings*							
-Library	Selenium2Library						
+Library	IYXUITest						
 Resource	basicMethod.tsv						
 							
 *Keywords*							
 drmLogin	openBrower	http://sso.yunxiao.com/kb_login/drm_web?redirect=http%3A%2F%2Ftestkbdrm.yunxiao.com&app=TIKU&cert_app=HFS_TEACHER					
 	sleep	2					
 	Input Text	id=loginName	18516316581				
-	Input Text	id=password	316581				
+	Input Text	id=password	123456				
 	Click Element	id=btn-login					
 	Maximize Browser Window						
 	sleep	2					
@@ -18,7 +18,21 @@ openBrower	[Arguments]	${url}
 	[Documentation]	remote_url=http://172.17.5.222:6006/wd/hub					
 	...						
 	...	remote_url=http://172.16.1.101:6006/wd/hub					
-	Open Browser	${url}	Chrome	remote_url=http://172.17.5.221:6006/wd/hub			
+	Open Browser	${url}	Chrome	remote_url=http://172.17.5.222:6006/wd/hub			
+	Comment	Open Browser	${url}	Chrome			
 							
 closeBrower	sleep	2					
 	close Browser						
+							
+admin_drmLogin	openBrower	http://sso.yunxiao.com/kb_login/drm_web?redirect=http%3A%2F%2Ftestkbdrm.yunxiao.com&app=TIKU&cert_app=HFS_TEACHER					
+	sleep	2					
+	Input Text	id=loginName	15565626773				
+	Input Text	id=password	666773				
+	Click Element	id=btn-login					
+	Maximize Browser Window						
+	sleep	2					
+	Get Window Titles						
+	Select Window	title=知识库					
+	sleep	2					
+	Comment	hitElement	"//div[@class=""el-dropdown""]/span/i"				
+	Comment	hitElement	"//*[@class=""el-dropdown-menu el-popper""]/li[1]"	#选择管理员角色			

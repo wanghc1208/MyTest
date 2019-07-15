@@ -1,47 +1,50 @@
 *** Settings ***
 Suite Setup
-Suite Teardown
-Test Setup        drmLogin
-Test Teardown     closebrower
+Suite Teardown    closebrower
+Test Setup
+Test Teardown
 Resource          basicKeyword.tsv
 Resource          basicMethod.tsv
 Library           Collections
-Library           Selenium2Library
+Library           IYXUITest
 
 *** Test Cases ***
 1036148_secondContenCheck
-    Comment    Set Global Variable    ${examname}    testauto3
-    sleep    3
-    hitElement    //div[@class="el-dropdown"]/span/i
-    hitElement    //*[@class="el-dropdown-menu el-popper"]/li[9]    #选择高中数学二审师
+    log    待二审列表
+    log    ${examname}
+    Comment    Set Global Variable    ${examname}    autoTest0704_8
+    jsContain    p    高中-数学-二审师
     hitLink    //nav/a[1]    #选择内容审核（默认）
-    hitButton    //div[3]/table/tbody/tr/td[4]/div/button[2]    #点击查看试卷
+    hitButton    //div[3]/table/tbody/tr[1]/td[5]/div/button[2]    #点击查看试卷
     hitButton    //div[@class="exampaper"]/div[1]/div[2]/button    #点击关闭查看
-    hitButton    //div[3]/table/tbody/tr[td[1]/div[text()="${examname}"]]/td[4]/div/button[1]    #点击进入审核
+    hitButton    //div[3]/table/tbody/tr[td[1]/div[text()="${examname}"]]/td[5]/div/button[1]    #点击进入审核
+    Wait Try Click    //span[text()="数字化审核"]
 
 1036151_secondCommitCheck
-    sleep    3
+    log    二审提交
+    Wait Try Click    //span[text()="数字化审核"]
     hitLink    //nav/a[2]    #点击审核记录
     hitElement    //*[@id="tab-reviewing"]    #点击审核中
     hitElement    //*[@id="pane-reviewing"]/div/div[1]/div[3]/table/tbody/tr[td[1]/div[text()="${examname}"]]/td[8]/div/button[1]    #点击继续审核
-    sleep    2
-    hitButton    //div[@class="layout-breadcrumb-nav"]/div[1]/div[3]/button[1]    #点击意见审核通过
+    hitButton    //div[@class="layout-breadcrumb-nav"]/div[1]/div[3]/button[1]    #点击一键审核通过
     hitButton    //button[span[text()="确定提交"]]    #点击确定提交
+    jsContain    button    回到首页
+    Wait Try Click    //div[@class="el-message-box__btns"]/button[2]    #回到首页
 
 1036149_secondCheck_Records
-    sleep    3
+    log    二审审核记录
+    Wait Try Click    //div[@class="el-message-box__btns"]/button[2]    #回到首页
     hitElement    //nav/a[2]    #点击我的审核记录
     hitElement    //*[@id="tab-reviewing"]    #点击审核中
     hitElement    //*[@id="tab-rejected"]    #点击未通过
     hitElement    //*[@id="tab-accepted"]    #点击已通过
 
 1036150_Job Account
+    log    二审工作量统计
     hitLink    //nav/a[3]    #点击我的工作统计
-    sleep    2
     hitElement    //input[@placeholder="开始日期"]
     hitButton    //button[text()="最近一周"]
     hitElement    //input[@placeholder="开始日期"]
     hitButton    //button[text()="最近一个月"]
     hitElement    //input[@placeholder="开始日期"]
     hitButton    //button[text()="最近三个月"]
-    sleep    3

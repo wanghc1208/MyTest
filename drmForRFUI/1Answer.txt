@@ -1,61 +1,51 @@
 *** Settings ***
-Suite Setup
+Suite Setup       drmLogin
 Suite Teardown
-Test Setup        drmLogin
-Test Teardown     closebrower
+Test Setup
+Test Teardown
 Resource          basicKeyword.tsv
 Resource          basicMethod.tsv
 Library           Collections
-Library           Selenium2Library
+Library           IYXUITest
 
 *** Test Cases ***
 1032045_claim_answer
+    [Setup]
+    log    答题认领列表界面
     sleep    2
-    hitElement    //div[@class="el-dropdown"]/span/i
-    hitElement    //*[@class="el-dropdown-menu el-popper"]/li[1]    #选择高中物理答题师
+    jsContain    p    高中-物理-答题师
     hitLink    //nav/a[1]    #选择内容入口菜单（默认）
     hitButton    //table/tbody/tr[1]/td[6]/div/button[2]    #点击查看
     hitButton    //div/div[2]/button[span[text()="关闭"]]    #点击关闭
     hitButton    //table/tbody/tr[1]/td[6]/div[@class="cell"]/button[1]
-    Comment    ${a}    Set Variable    1
-    Comment    Run Keyword If    ${a}==1    hitButton    //div[@class="el-message-box__btns"]/button[2]
-    Comment    ${text}    getTextValue    //div[@class="explain-footer"]/button/span
-    Comment    Run Keyword If    ${text}=我知道了    hitButton    //div[@class="explain-footer"]/button
+    sleep    3
+    jsContain    button    去答题
+    Wait Try Click    //div[@class="el-message-box__btns"]/button[2]    #尝试点击去答题
     sleep    2
+    Execute Javascript    $("span:contains('认领答题')").eq(2).click()
+    Wait Try Click    //span[@role="link"]/span[text()="认领答题"]    #点击返回首页
 
-1032046_edit_answer
+1032046_edit_list
+    log    编辑中试题列表
+    sleep    3
     hitLink    //nav/a[2]    #点击我的答题记录
     hitElement    //*[@id="tab-answering"]    #点击编辑中
+    sleep    2
     hitButton    //div[@class="footer-btn"]/button[2]    #点击查看试题
     hitButton    //div[@role="dialog"]/div[1]/div/div[2]/button    #关闭试题查看
+
+1032046_edit_look
+    log    编辑试题界面查看
     hitButton    //div[@class="footer-btn"]/button[1]    #点击继续答题
     hitButton    //div[@class="layout-wrap"]/div/div[1]/div/div[2]/button[1]    #查看答题规范
     hitButton    //div[@class="explain-footer"]/button    #点击我知道了
     hitElement    //span[text()="预览"]    #点击预览
     hitElement    //button/span[text()="关闭"]    #关闭预览
     hitButton    //button[span[text()='暂存']]    #点击暂存
+    sleep    2
 
-1032267_list_answer
-    hitLink    //nav/a[2]    #点击我的答题记录
-    hitElement    //*[@id="tab-answered"]    #点击待审核
-    hitElement    //*[@id="tab-reviewing"]    #点击审核中
-    hitElement    //*[@id="tab-rejected"]    #点击未通过
-    hitElement    //*[@id="tab-accepted"]    #点击已通过
-
-1032272_Job Account
-    hitLink    //nav/a[3]    #点击我的工作统计
-    hitElement    //input[@placeholder="开始日期"]
-    Comment    sleep    2
-    hitButton    //button[text()="最近一周"]
-    hitElement    //input[@placeholder="开始日期"]
-    hitButton    //button[text()="最近一个月"]
-    hitElement    //input[@placeholder="开始日期"]
-    hitButton    //button[text()="最近三个月"]
-
-1034357_commit_answer
-    hitLink    //nav/a[2]    #点击我的答题记录
-    hitElement    //*[@id="tab-answering"]    #点击编辑中
-    hitButton    //div[@class="footer-btn"]/button[1]    #点击继续答题
+1034357_editsave_answer
+    log    编辑答案、解答、解析
     sleep    3
     log    输入解答
     hitElement    //div/div/div[2]/div/div/div/div/div[1]/div/div/div[5]/div[3]/div[2]/div[1]
@@ -66,32 +56,54 @@ Library           Selenium2Library
     hitElement    //div[@class="kb_editques"]/div[5]/div[3]/div[3]/button[1]
     log    输入解析
     hitElement    //div/div/div[2]/div/div/div/div/div[1]/div/div/div[6]/div[3]/div[2]/div[1]
-    sleep    5
-    Select Frame    xpath=//*[contains(@src, 'http://www.w3.org/1999/xhtml' )]
     sleep    3
+    Select Frame    xpath=//*[contains(@src, 'http://www.w3.org/1999/xhtml' )]
     execute javascript    $('body > p').text('解析test')
     unSelect Frame
     hitElement    //div[6]/div[3]/div[3]/button[1]
     hitButton    //button[span[text()='暂存']]    #点击暂存
-    sleep    2
+
+1034357_edit_knowledge_commit
+    log    编辑知识点
     hitButton    //div[@class="kb_editques-knowledge"]/button    #点击编辑知识点
     sleep    3
-    Comment    ${value}    getElementproperty    //div[4]/div/div[2]/div/div[2]/div[1]/div/div[1]/div[1]/label/span    class
-    Comment    Run Keyword If    ${value}=='el-checkbox__input'    hitElement    //div[@class="kb_editknowledge-cont"]/div[1]/div/div[1]/div[1]/label/span/span    #勾选知识点
     hitElement    //div[@class="kb_editknowledge-cont"]/div[1]/div/div[1]/div[1]/label/span/span
-    hitElement    //div[2]/div/div[2]/div[1]/div/div[2]/div[1]/label/span/span
-    hitElement    //div[2]/div/div[2]/div[1]/div/div[2]/div[1]/label/span/span
-    hitButton    //div[@aria-label="编辑知识点"]/div/span/button[1]    #点击保存
+    hitButton    //div[@aria-label="编辑知识点"]/div[3]/span/button[1]    #点击保存
     sleep    2
-    hitButton    //div/div[2]/button[span[text()="提交"]]    #点击提交
+    hitButton    //button[span[text()="提交"]]    #点击提交
+    sleep    3
+    jsContain    button    回首页
+    Wait Try Click    //button[span[text()="回首页"]]    #回首页
 
-1034367_Edit again_commit
+1034367_Dcheck_list
+    log    待审核列表查看
     hitLink    //nav/a[2]    #点击我的答题记录
     hitElement    //*[@id="tab-external"]
-    sleep    2
     hitElement    //*[@id="tab-answered"]    #点击待审核
     hitElement    //*[@id="pane-answered"]/div/div[1]/div/div/div/div[3]/div[2]/button[span[text()="查看试题"]]    #查看试题
     hitButton    //div[@role="dialog"]/div[1]/div/div[2]/button    #关闭试题查看
+
+1034367_edit commit2
+    log    待审核列表重新编辑提交
     hitButton    //button[span[text()="重新编辑"]]    #点击重新编辑
-    sleep    2
     hitButton    //div/div[2]/button[span[text()="提交"]]    #点击提交
+    jsContain    button    回首页
+    Wait Try Click    //button[span[text()="回首页"]]    #回首页
+
+1032267_record_list
+    log    答题记录列表查看
+    hitLink    //nav/a[2]    #点击我的答题记录
+    hitElement    //*[@id="tab-answered"]    #点击待审核
+    hitElement    //*[@id="tab-reviewing"]    #点击审核中
+    hitElement    //*[@id="tab-rejected"]    #点击未通过
+    hitElement    //*[@id="tab-accepted"]    #点击已通过
+
+1032272_Job Account
+    log    工作统计列表
+    hitLink    //nav/a[3]    #点击我的工作统计
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一周"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近一个月"]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]

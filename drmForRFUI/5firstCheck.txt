@@ -1,40 +1,45 @@
 *** Settings ***
 Suite Setup
 Suite Teardown
-Test Setup        drmLogin
-Test Teardown     closebrower
+Test Setup
+Test Teardown
 Resource          basicKeyword.tsv
 Resource          basicMethod.tsv
 Library           Collections
-Library           Selenium2Library
+Library           IYXUITest
 
 *** Test Cases ***
 1036129_contenCheck
-    Comment    Set Global Variable    ${examname}    testauto3
-    sleep    3
-    hitElement    //div[@class="el-dropdown"]/span/i
-    hitElement    //*[@class="el-dropdown-menu el-popper"]/li[8]    #选择高中数学一审师
+    log    待一审列表
+    Comment    Set Global Variable    ${examname}    autoTest0704_8
+    jsContain    p    高中-数学-一审师
     hitLink    //nav/a[1]    #选择内容审核（默认）
-    hitButton    //div[3]/table/tbody/tr[td[1]/div[text()="${examname}"]]/td[7]/div/button    #点击进入审核
+    hitButton    //div[3]/table/tbody/tr[td[1]/div[text()="${examname}"]]/td[8]/div/button    #点击进入审核
+    jsContain    span    审核试题
+    Wait Try Click    //span[text()="审核试题"]    #返回首页
 
 1036135_commitCheck
-    sleep    3
+    log    一审提交
+    sleep    2
     hitLink    //nav/a[2]    #点击审核记录
     hitElement    //*[@id="tab-reviewing"]    #点击审核中
     hitElement    //*[@id="pane-reviewing"]/div/div[1]/div[3]/table/tbody/tr[td[1]/div[text()="${examname}"]]/td[6]/div/button    #点击继续审核
-    sleep    2
     hitButton    //div[@class="review-btn"]/button[2]    #点击审核正确
     hitButton    //div[@class="rate-key"]/div/button[1]    #快捷输入100分
     hitButton    //div[@class="button-area"]/button[3]    #点击保存
+    jsContain    button    回首页
+    Wait Try Click    //div[@class="el-message-box__btns"]/button[1]
 
 1036130_check_Records
-    sleep    3
+    log    一审记录查看
+    sleep    2
     hitElement    //nav/a[2]    #点击我的审核记录
     hitElement    //*[@id="tab-reviewing"]    #点击审核中
     hitElement    //*[@id="tab-rejected"]    #点击未通过
     hitElement    //*[@id="tab-accepted"]    #点击已通过
 
 1036132_Job Account
+    log    一审师工作量统计
     hitLink    //nav/a[3]    #点击我的工作统计
     sleep    2
     hitElement    //input[@placeholder="开始日期"]
@@ -43,4 +48,3 @@ Library           Selenium2Library
     hitButton    //button[text()="最近一个月"]
     hitElement    //input[@placeholder="开始日期"]
     hitButton    //button[text()="最近三个月"]
-    sleep    3

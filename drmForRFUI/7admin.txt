@@ -1,0 +1,152 @@
+*** Settings ***
+Suite Setup       admin_drmLogin
+Suite Teardown    closebrower
+Test Setup
+Test Teardown
+Resource          basicKeyword.tsv
+Resource          basicMethod.tsv
+Library           Collections
+Library           IYXUITest
+
+*** Test Cases ***
+1038753_userManage_period
+    sleep    2
+    jsContain    p    管理员
+    log    学段设置
+    hitLink    //nav/a[1]
+    hitElement    //ul/li[span[text()="学段学科设置"]]
+    hitButton    //div[h3[text()="学段设置"]]/div/button    #添加学段
+    Input Text    //div[h3[text()="学段设置"]]/div/div/input    test学段
+    hitElement    //div[h3[text()="学段设置"]]/div/div/i[@class="el-icon-check"]    #确认添加
+    hitElement    //li[span[text()="test学段"]]/span[2]/i[1]    #编辑新增学段
+    hitButton    //div[@class="el-message-box__btns"]/button[2]    #点击确定保存编辑
+    hitElement    //li[span[text()="test学段"]]/span[2]/i[4]    #删除新增学段
+    hitButton    //div[@class="el-message-box__btns"]/button[2]    #点击确定删除
+
+1038754_userManage_subject
+    log    学科设置
+    hitLink    //nav/a[1]
+    hitElement    //ul/li[span[text()="学段学科设置"]]
+    hitButton    //div[h3[text()="学科设置"]]/div/button    #添加学科
+    Input Text    //div[h3[text()="学科设置"]]/div/div/input    test学科
+    hitElement    //div[h3[text()="学科设置"]]/div/div/i[@class="el-icon-check"]    #确认添加
+    hitElement    //li[span[text()="test学科"]]/span[2]/i[1]    #编辑新增学科
+    hitButton    //div[@class="el-message-box__btns"]/button[2]    #点击确定保存编辑
+    hitElement    //li[span[text()="test学科"]]/span[2]/i[4]    #删除新增学科
+    hitButton    //div[@class="el-message-box__btns"]/button[2]    #点击确定删除
+
+1038756_userManage_Permission(in)
+    log    用户权限设置
+    hitLink    //nav/a[1]
+    hitElement    //ul/li[span[text()="用户权限设置"]]
+    hitElement    //*[@id="tab-in"]
+    Input Text    //input[@placeholder="请输入姓名/联系电话"]    陈亚蒙    #根据姓名搜索
+    hitButton    //div[div[input[@placeholder="请输入姓名/联系电话"]]]/button    #点击搜索
+    Input Text    //input[@placeholder="请输入姓名/联系电话"]    18239902181    #根据手机号搜索
+    hitButton    //div[div[input[@placeholder="请输入姓名/联系电话"]]]/button    #点击搜索
+    hitButton    //tr[td[div[text()="18239902181"]]]/td[4]/div/button    #点击编辑
+    hitButton    //div[3]/div[@class="dialog-footer"]/button[1]    #保存编辑
+
+1038816_userManage_Permission(out)
+    log    用户权限设置
+    hitLink    //nav/a[1]
+    hitElement    //ul/li[span[text()="用户权限设置"]]
+    hitElement    //*[@id="tab-out"]
+    hitButton    //button[span[text()="新建组"]]    #点击新建组
+    Input Text    //tr[1]/td[1]/div/div[@class="group-cell-1"]/p[2]/div/input    test新建组
+    hitElement    //tr[1]/td[1]/div/div[@class="group-cell-1"]/p[2]/i[2]    #取消新建组
+    Input Text    //*[@id="pane-out"]/div/div[1]/div[2]/div/div/input    18239902181    #根据手机号搜索
+    hitButton    //*[@id="pane-out"]/div/div[1]/div[2]/div/button    #点击搜索
+
+1038757_userManage_role
+    log    角色设置
+    hitLink    //nav/a[1]
+    hitElement    //ul/li[span[text()="角色设置"]]
+
+1038780_WorkAccount_answer
+    log    答题师工作量统计
+    hitLink    //nav/a[2]
+    hitElement    //li[span[text()="答题师统计"]]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    Input Text    //span[@class="search"]/div/input    18516316581
+    hitButton    //span[@class="search"]/button    #点击搜索
+
+1038781_WorkAccount_image
+    log    图片师工作量统计
+    hitLink    //nav/a[2]
+    hitElement    //li[span[text()="图片师统计"]]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    Input Text    //span[@class="search"]/div/input    18516316581
+    hitButton    //span[@class="search"]/button    #点击搜索
+
+1038782_WorkAccount_payout
+    log    派发师工作量统计
+    hitLink    //nav/a[2]
+    hitElement    //li[span[text()="派发师统计"]]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    Input Text    //span[@class="search"]/div/input    18516316581
+    hitButton    //span[@class="search"]/button    #点击搜索
+
+1038783_WorkAccount_digitize
+    log    数字化工程师工作量统计
+    hitLink    //nav/a[2]
+    hitElement    //li[span[text()="数字化工程师统计"]]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    Input Text    //span[@class="search"]/div/input    18516316581
+    hitButton    //span[@class="search"]/button    #点击搜索
+
+1038784_WorkAccount_firstcheck
+    log    一审师工作量统计
+    hitLink    //nav/a[2]
+    hitElement    //li[span[text()="一审师统计"]]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    Input Text    //span[@class="search"]/div/input    18516316581
+    hitButton    //span[@class="search"]/button    #点击搜索
+
+1038785_WorkAccount_secondcheck
+    log    二审师工作量统计
+    hitLink    //nav/a[2]
+    hitElement    //li[span[text()="二审师统计"]]
+    hitElement    //input[@placeholder="开始日期"]
+    hitButton    //button[text()="最近三个月"]
+    Input Text    //span[@class="search"]/div/input    18516316581
+    hitButton    //span[@class="search"]/button    #点击搜索
+
+1038786_priceManage_answer
+    log    答题定价
+    hitLink    //nav/a[3]
+    hitElement    //li[span[text()="答题定价"]]
+    hitButton    //div[label[text()="答题："]]/div[2]/button[1]    #编辑答题定价
+    Input Text    //div[label[text()="答题："]]/div[1]/input    0.01    #输入答题价格
+    hitButton    //div[label[text()="答题："]]/div[2]/button[2]    #点击保存价格
+    hitButton    //div[label[text()="答题+数字化："]]/div[2]/button[1]    #编辑答题+数字化定价
+    Input Text    //div[label[text()="答题+数字化："]]/div[1]/input    0.02    #输入答题+数字化价格
+    hitButton    //div[label[text()="答题+数字化："]]/div[2]/button[2]    #点击保存价格
+
+1038787_priceManage_question
+    log    试题定价
+    hitLink    //nav/a[3]
+    hitElement    //li[span[text()="试题定价"]]
+    hitButton    //div[label[text()="题干数字化："]]/div[2]/button[1]    #编辑定价
+    Input Text    //div[label[text()="题干数字化："]]/div[1]/input    0.01    #输入价格
+    hitButton    //div[label[text()="题干数字化："]]/div[2]/button[2]    #点击保存价格
+    hitButton    //div[label[text()="答题数字化："]]/div[2]/button[1]    #编辑定价
+    Input Text    //div[label[text()="答题数字化："]]/div[1]/input    0.02    #输入价格
+    hitButton    //div[label[text()="答题数字化："]]/div[2]/button[2]    #点击保存价格
+    hitButton    //div[label[text()="题干+答题数字化："]]/div[2]/button[1]    #编辑定价
+    Input Text    //div[label[text()="题干+答题数字化："]]/div[1]/input    0.03    #输入价格
+    hitButton    //div[label[text()="题干+答题数字化："]]/div[2]/button[2]    #点击保存价格
+
+1038788_priceManage_cut
+    log    切割定价
+    hitLink    //nav/a[3]
+    hitElement    //li[span[text()="切割定价"]]
+    hitButton    //div[@class="content"]/div[4]/button[1]    #点击编辑
+    Input Text    //div[label[text()="试卷切割1套定价："]]/div/input    2
+    Input Text    //div[label[text()="每切割错误1题扣除试卷的："]]/div/input    25
+    hitButton    //div[@class="content"]/div[4]/button[2]
